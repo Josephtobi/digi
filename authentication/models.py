@@ -12,6 +12,8 @@ from django.contrib.auth.models import AbstractBaseUser, AbstractUser, Permissio
 from django.utils import timezone
 
 
+from rest_framework_simplejwt.tokens import RefreshToken
+
 class CustomUserManager(BaseUserManager):
     # custom user model manager where email is the unique identifiers
     # for authentication instead of usernames
@@ -75,7 +77,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     def tokens(self):
-        return ''
+
+        refresh=RefreshToken.for_user(self)
+        return {
+            "refresh":str(refresh) ,
+            "access": str(refresh.access_token)
+        }
 
 
 

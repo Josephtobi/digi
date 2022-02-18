@@ -151,10 +151,10 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_USE_TLS=True
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_PORT=587
-EMAIL_HOST_USER='josephtobi53@gmail.com'
-EMAIL_HOST_PASSWORD='blastedblastedblasted'
+EMAIL_HOST='mail.femidaviesandco.com '
+EMAIL_PORT=465
+EMAIL_HOST_USER='digital@femidaviesandco.com'
+EMAIL_HOST_PASSWORD='Blasted123...'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 django_heroku.settings(locals())

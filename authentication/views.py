@@ -11,6 +11,7 @@ import jwt
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from django.contrib.auth import authenticate, login
 
 
 # Create your views here.
@@ -59,6 +60,7 @@ class VerifyEmail(views.APIView):
             user= CustomUser.objects.get(id=payload['user_id'])
             user.email_verification=True
             user.save()
+            login(request, user)
             return Response({'message':'email successfully verified'},status.HTTP_200_OK)
 
         except jwt.ExpiredSignatureError:
@@ -67,9 +69,20 @@ class VerifyEmail(views.APIView):
             return Response({'message':'invalid token request new one'},status.HTTP_400_BAD_REQUEST)
             
             
+class ProfileEdit(generics.GenericAPIView):
+    pass
 
 
+class Username(generics.GenericAPIView):
+    pass
 
+
+class Links(generics.GenericAPIView):
+    pass
+
+
+class Login(generics.GenericAPIView):
+    pass
 
 # class ProjectView(generics.GenericAPIView):
 #     serializer_class=''
