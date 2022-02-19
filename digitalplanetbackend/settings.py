@@ -150,11 +150,11 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_USE_TLS=True
-EMAIL_HOST='smtp.sendgrid.net'
+EMAIL_USE_TLS=False
+EMAIL_HOST='mail.femidaviesandco.com '
 EMAIL_PORT=587
-EMAIL_HOST_USER='apikey'
-EMAIL_HOST_PASSWORD='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'
+EMAIL_HOST_USER='digital@femidaviesandco.com'
+EMAIL_HOST_PASSWORD='Blasted123...'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 django_heroku.settings(locals())
