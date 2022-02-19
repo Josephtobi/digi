@@ -151,9 +151,9 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_USE_TLS=False
-EMAIL_HOST='mail.femidaviesandco.com '
-EMAIL_PORT=587
-EMAIL_HOST_USER='digital@femidaviesandco.com'
+EMAIL_HOST='smtp.netcorecloud.net'
+EMAIL_PORT=25
+EMAIL_HOST_USER='digitalkg607z'
 EMAIL_HOST_PASSWORD='Blasted123...'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
