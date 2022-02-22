@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import CustomUser
 from .utils import Util 
+from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 import jwt
@@ -40,7 +41,10 @@ class RegisterView(generics.GenericAPIView):
 
         }
 
-        Util.send_email(data)
+        email = EmailMessage(data['subject'],data['body'], to= [data['to']])
+        email.send()
+        # Util.send_email(data)
+        print('done')
 
 
         return Response(user_data,status.HTTP_201_CREATED)
