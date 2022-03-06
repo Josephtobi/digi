@@ -34,7 +34,7 @@ class RegisterView(generics.GenericAPIView):
         token=RefreshToken.for_user(user).access_token
         current_site=get_current_site(request)
         relativeLink=reverse('verify')
-        absurl='http://'+str(current_site)+relativeLink+'?token='+str(token.access_token)
+        absurl='http://'+str(current_site)+relativeLink+'?token='+str(token)
         body='Hi \n'+'Pls verify your email with the link below \n'+absurl
         data={
             'subject':'Verify your Email',
