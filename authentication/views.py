@@ -4,8 +4,9 @@ from .serializers import RegisterSerializers,EmailVerifySerializers
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import CustomUser
-from .utils import Util 
-from django.core.mail import EmailMessage
+# from .utils import Util 
+# from django.core.mail import send_mail
+from .email import Email
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 import jwt
@@ -13,6 +14,7 @@ from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from django.contrib.auth import authenticate, login
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
@@ -32,7 +34,7 @@ class RegisterView(generics.GenericAPIView):
         token=RefreshToken.for_user(user).access_token
         current_site=get_current_site(request)
         relativeLink=reverse('verify')
-        absurl='http://'+str(current_site)+relativeLink+'?token='+str(token)
+        absurl='http://'+str(current_site)+relativeLink+'?token='+str(token.access_token)
         body='Hi \n'+'Pls verify your email with the link below \n'+absurl
         data={
             'subject':'Verify your Email',
@@ -40,14 +42,29 @@ class RegisterView(generics.GenericAPIView):
             'to':user.email
 
         }
+        Email.send_email(data)
 
-        email = EmailMessage(data['subject'],data['body'], to= [data['to']])
-        email.send()
+        # send_mail(
+        #     data['subject'],
+        #     data['body'],
+        #     'digitalplanet@gmail.com',
+        #     [data['to']],
+        #     fail_silently=False,
+        # )
         # Util.send_email(data)
         print('done')
 
 
         return Response(user_data,status.HTTP_201_CREATED)
+
+#
+# def get_tokens_for_user(user):
+#     refresh = RefreshToken.for_user(user)
+#
+#     return {
+#         'refresh': str(refresh),
+#         'access': str(refresh.access_token),
+#     }
 
 class VerifyEmail(views.APIView):
     serializer_class=EmailVerifySerializers

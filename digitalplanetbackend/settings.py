@@ -94,17 +94,12 @@ DATABASES = {
 
 
 REST_FRAMEWORK = {
-
-    # NON_FIELD_ERRORS_KEY:'error',
-    # 'DEFAULT_FILTER_BACKENDS' : [
-    #     'django_filters.rest_framework.DjangoFilterBackend'
-    # ],
-    # 'DEFAULT_AUTHENTICATION_CLASSES' : [
-    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-    # ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ],
 }
 
 # Password validation
@@ -151,10 +146,11 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_USE_TLS=True
-EMAIL_HOST=  'mail.femidaviesandco.com'
-EMAIL_PORT= 465
-EMAIL_HOST_USER='digital@femidaviesandco.com'
-EMAIL_HOST_PASSWORD='Blasted123...'
+EMAIL_HOST=  'in-v3.mailjet.com'
+EMAIL_PORT= 587
+EMAIL_HOST_USER='d969a9ccad24ff6e6f32e4f4b57dae2d'
+EMAIL_HOST_PASSWORD='1365c504878997833b4a29633e5b3098'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 # EMAIL_USE_TLS = False
