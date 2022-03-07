@@ -1,3 +1,4 @@
+import jwt
 from django.shortcuts import render
 from rest_framework import generics,status,views
 from .serializers import RegisterSerializers,EmailVerifySerializers
@@ -9,7 +10,7 @@ from .models import CustomUser
 from .email import Email
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-import jwt
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -76,7 +77,7 @@ class VerifyEmail(views.APIView):
         token=request.GET.get('token')
 
         try:
-            payload = jwt.decode(token,settings.SECRET_KEY)
+            payload = jwt.decode(token,settings.SECRET_KEY,'HS512')
 
             user= CustomUser.objects.get(id=payload['user_id'])
             user.email_verification=True

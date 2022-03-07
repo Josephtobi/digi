@@ -157,3 +157,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_USE_SSL = False
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 django_heroku.settings(locals())
+
+SIMPLE_JWT = {
+
+    'ALGORITHM': 'HS512',
+    'SIGNING_KEY': SECRET_KEY,
+}
