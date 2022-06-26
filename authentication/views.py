@@ -1,7 +1,7 @@
 import jwt
 from django.shortcuts import render
 from rest_framework import generics,status,views
-from .serializers import RegisterSerializers,EmailVerifySerializers
+from .serializers import RegisterSerializers,EmailVerifySerializers,EmailSerializers,EmailSerializers2
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import CustomUser
@@ -19,6 +19,38 @@ from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
+
+#email link sender
+class EmailView(generics.GenericAPIView):
+    serializer_class=EmailSerializers
+    
+    def post(self,request):
+        data=request.data
+        serializer=self.serializer_class(data=data)    
+        serializer.is_valid(raise_exception=True)
+        encode=jwt.encode({'email':'valid'},'user_reg','HS512')
+        
+        
+        return Response(encode,status.HTTP_200_OK)
+    
+class EmailView2(generics.GenericAPIView):
+    serializer_class=EmailSerializers2
+    
+    def post(self,request):
+        data=request.data
+        serializer=self.serializer_class(data=data)    
+        serializer.is_valid(raise_exception=True)
+        encode=jwt.decode(data['token'],'user_reg','HS512')
+        if encode['email']=='valid':
+            return Response('token confirmed',status.HTTP_200_OK)
+        
+        return Response('token wrong or expired',status.HTTP_400_BAD_REQUEST)
+            
+        
+        
+        
+
+
 
 class RegisterView(generics.GenericAPIView):
     serializer_class=RegisterSerializers

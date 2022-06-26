@@ -4,19 +4,19 @@ from .models import CustomUser
 
 
 class RegisterSerializers(serializers.ModelSerializer):
-    # password=serializers.CharField(
-    #     max_length=68, min_length=5, write_only=True
-    # )
+    password=serializers.CharField(
+        max_length=68, min_length=5, write_only=True
+    )
 
     class Meta:
         model = CustomUser
-        fields=['email']
+        fields=['email','password','username']
 
     def validate(self, attrs):
         email=attrs.get('email', '')
-
-        # if not username.isalnum():
-        #     raise serializers.ValidationError('The username must be alphanumeric')
+        username=attrs.get('username', '')
+        if not username.isalnum():
+            raise serializers.ValidationError('The username must be alphanumeric')
         return attrs
 
     def create(self, validated_data):
@@ -30,3 +30,8 @@ class EmailVerifySerializers(serializers.ModelSerializer):
         model=CustomUser
         fields=['token']
 
+class EmailSerializers(serializers.Serializer):
+    email=serializers.CharField(max_length=500)
+    
+class EmailSerializers2(serializers.Serializer):
+    token=serializers.CharField(max_length=500)

@@ -18,13 +18,13 @@ class CustomUserManager(BaseUserManager):
     # custom user model manager where email is the unique identifiers
     # for authentication instead of usernames
     
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, email, password, **extra_fields):
 
         if not email:
             raise ValueError(_('The Email must be set'))
         email= self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
-        password='default_password'
+        password=password
         user.set_password(password)
         user.save()
         return user
@@ -62,14 +62,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=254)
     last_name = models.CharField(max_length=254)
     created_at=models.DateTimeField(auto_now_add=True)
-    # link = 
+    link = models.CharField(max_length=254)
     location = models.CharField(max_length=254)
     bio = models.CharField(max_length=254)
     skills = models.CharField(max_length=254)
     profile_pics = models.ImageField(upload_to='upload')
 
     USERNAME_FIELD = 'email'
-    # REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
     objects=CustomUserManager()
     
