@@ -61,21 +61,25 @@ class RegisterView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         user_data=serializer.data
+        
 
-        user=CustomUser.objects.get(email=user_data['email'])
+        # user=CustomUser.objects.get(email=user_data['email'])
+        # user.email_verification=True
+        # user.save()
+        
 
-        token=RefreshToken.for_user(user).access_token
-        current_site=get_current_site(request)
-        relativeLink=reverse('verify')
-        absurl='http://'+str(current_site)+relativeLink+'?token='+str(token)
-        body='Hi \n'+'Pls verify your email with the link below \n'+absurl
-        data={
-            'subject':'Verify your Email',
-            'body':body,
-            'to':user.email
+        # token=RefreshToken.for_user(user).access_token
+        # current_site=get_current_site(request)
+        # relativeLink=reverse('verify')
+        # absurl='http://'+str(current_site)+relativeLink+'?token='+str(token)
+        # body='Hi \n'+'Pls verify your email with the link below \n'+absurl
+        # data={
+        #     'subject':'Verify your Email',
+        #     'body':body,
+        #     'to':user.email
 
-        }
-        Email.send_email(data)
+        # }
+        # Email.send_email(data)
 
         # send_mail(
         #     data['subject'],
@@ -85,7 +89,7 @@ class RegisterView(generics.GenericAPIView):
         #     fail_silently=False,
         # )
         # Util.send_email(data)
-        print('done')
+        # print('done')
 
 
         return Response(user_data,status.HTTP_201_CREATED)
@@ -99,28 +103,28 @@ class RegisterView(generics.GenericAPIView):
 #         'access': str(refresh.access_token),
 #     }
 
-class VerifyEmail(views.APIView):
-    serializer_class=EmailVerifySerializers
+# class VerifyEmail(views.APIView):
+#     serializer_class=EmailVerifySerializers
 
-    token_param=openapi.Parameter('token',in_=openapi.IN_QUERY, Description='token sent along side email', type=openapi.TYPE_STRING)
+#     token_param=openapi.Parameter('token',in_=openapi.IN_QUERY, Description='token sent along side email', type=openapi.TYPE_STRING)
 
-    @swagger_auto_schema(manual_parameters=[token_param])
-    def get(self, request):
-        token=request.GET.get('token')
+#     @swagger_auto_schema(manual_parameters=[token_param])
+#     def get(self, request):
+#         token=request.GET.get('token')
 
-        try:
-            payload = jwt.decode(token,settings.SECRET_KEY,'HS512')
+#         try:
+#             payload = jwt.decode(token,settings.SECRET_KEY,'HS512')
 
-            user= CustomUser.objects.get(id=payload['user_id'])
-            user.email_verification=True
-            user.save()
-            login(request, user)
-            return Response({'message':'email successfully verified'},status.HTTP_200_OK)
+#             user= CustomUser.objects.get(id=payload['user_id'])
+#             user.email_verification=True
+#             user.save()
+#             login(request, user)
+#             return Response({'message':'email successfully verified'},status.HTTP_200_OK)
 
-        except jwt.ExpiredSignatureError:
-            return Response({'message':'token expired'},status.HTTP_400_BAD_REQUEST)
-        except jwt.exceptions.DecodeError:
-            return Response({'message':'invalid token request new one'},status.HTTP_400_BAD_REQUEST)
+#         except jwt.ExpiredSignatureError:
+#             return Response({'message':'token expired'},status.HTTP_400_BAD_REQUEST)
+#         except jwt.exceptions.DecodeError:
+#             return Response({'message':'invalid token request new one'},status.HTTP_400_BAD_REQUEST)
             
             
 class ProfileEdit(generics.GenericAPIView):
